@@ -37,8 +37,8 @@ const LoginForm = () => {
     setSuccess("");
     startTransition(() => {
       Login(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        setError(data?.error);
+        setSuccess(data?.success || false);
       });
     });
   };
