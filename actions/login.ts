@@ -18,6 +18,7 @@ export const Login = async (values: z.infer<typeof loginSchema>) => {
       password,
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
+    console.log("Redirecting to settings page");
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
