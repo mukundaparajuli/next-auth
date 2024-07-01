@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 import { DEFAULT_LOGIN_REDIRECT } from "../../../../routes";
 
 export function Socials() {
-  const onClick = (provider: "github" | "google") => {
+  const handleSignIn = (provider: "github" | "google") => {
     signIn(provider, {
       callbackUrl: DEFAULT_LOGIN_REDIRECT,
     });
@@ -18,7 +18,7 @@ export function Socials() {
         size="lg"
         variant="outline"
         className="w-full"
-        onClick={() => onClick("google")}
+        onClick={() => handleSignIn("google")}
       >
         <FcGoogle className="h-5 w-5" />
       </Button>
@@ -26,7 +26,7 @@ export function Socials() {
         size="lg"
         variant="outline"
         className="w-full"
-        onClick={() => onClick("github")}
+        onClick={() => handleSignIn("github")}
       >
         <FaGithub className="h-5 w-5" />
       </Button>
