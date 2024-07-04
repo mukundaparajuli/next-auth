@@ -1,11 +1,10 @@
 import { Resend } from "resend";
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
-console.log(resend);
 export const sendVerificationEmail = async (email: string, token: string) => {
   const confirmLink = `http://localhost:3000/auth/new-verification?token=${token}`;
 
-  resend.emails
+  await resend.emails
     .send({
       from: "onboarding@resend.dev",
       to: email,
@@ -19,4 +18,18 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     .catch((error) => {
       console.log("Error occured while sending email: ", error);
     });
+};
+
+export const sendPasswordResetEmail = async (email: string, token: string) => {
+  const resetLink = `http://localhost:3000/auth/reset?token=${token}`;
+  try {
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: email,
+      subject: "Reset your email",
+      html: `<p>Click <a href=${resetLink}>here</a> to reset your email.</p>`,
+    });
+  } catch (error) {
+    console.log("Error occured while sending email: ", error);
+  }
 };
