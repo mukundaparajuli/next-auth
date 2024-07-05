@@ -21,13 +21,13 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-  const resetLink = `http://localhost:3000/auth/reset?token=${token}`;
+  const resetLink = `http://localhost:3000/auth/new-password?token=${token}`;
   try {
     await resend.emails.send({
       from: "onboarding@resend.dev",
       to: email,
-      subject: "Reset your email",
-      html: `<p>Click <a href=${resetLink}>here</a> to reset your email.</p>`,
+      subject: "Reset your password",
+      html: `<p>Click <a href=${resetLink}>here</a> to reset your password.</p>`,
     });
   } catch (error) {
     console.log("Error occured while sending email: ", error);
