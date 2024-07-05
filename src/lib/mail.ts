@@ -33,3 +33,18 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
     console.log("Error occured while sending email: ", error);
   }
 };
+export const twoFactorConfirmationEmail = async (
+  email: string,
+  token: string
+) => {
+  try {
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: email,
+      subject: "2FA Code",
+      html: `<p>Your Two Factor Authentication Code: ${token}</p>`,
+    });
+  } catch (error) {
+    console.log("Error occured while sending email: ", error);
+  }
+};
