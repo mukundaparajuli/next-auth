@@ -14,6 +14,7 @@ import { sendVerificationEmail, twoFactorConfirmationEmail } from "@/lib/mail";
 import { getTwoFactorTokenByEmail } from "../data/two-factor-token";
 import { db } from "@/lib/db";
 import { twoFactorConfirmationByUserId } from "../data/two-factor-confirmation";
+import { TwoFactorConfirmation } from "@prisma/client";
 export const Login = async (values: z.infer<typeof loginSchema>) => {
   const validateFields = loginSchema.safeParse(values);
 
@@ -53,14 +54,16 @@ export const Login = async (values: z.infer<typeof loginSchema>) => {
       );
       if (existingConfirmation) {
         await db.twoFactorConfirmation.delete({
-          where: { id: existingConfirmation.id },
+          where: {
+            id: existingConfirmation.id,
+          } as TwoFactorConfirmation,
         });
       }
 
       await db.twoFactorConfirmation.create({
         data: {
           userId: existingUser.id,
-        },
+        } as TwoFactorConfirmation,
       });
     } else {
       const twoFactorToken = await generateTwoFactorToken(email);
