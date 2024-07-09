@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useCurrentUser } from "../../../../hoooks/use-current-user";
-import { LogOutButton, LogoutButton } from "./logout-button";
+import { LogOutButton } from "./logout-button";
 import { LoginButton } from "./login-button";
 
 export const UserButton = () => {
