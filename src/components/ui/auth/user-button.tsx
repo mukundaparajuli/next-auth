@@ -11,7 +11,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useCurrentUser } from "../../../../hoooks/use-current-user";
-import { LogoutButton } from "./logout-button";
+import { LogOutButton, LogoutButton } from "./logout-button";
+import { LoginButton } from "./login-button";
+
 export const UserButton = () => {
   const user = useCurrentUser();
 
@@ -26,13 +28,15 @@ export const UserButton = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="end">
-        <LogoutButton>
-          <DropdownMenuItem>
-            <ExitIcon className="h-4 w-4 mr-2" />
-            Logout
-          </DropdownMenuItem>
-        </LogoutButton>
+        <DropdownMenuItem className="gap-x-2">
+          <ExitIcon />
+          <LogOutButton>Log Out</LogOutButton>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
+};
+
+const LogOut = () => {
+  return <div>Log Out</div>;
 };

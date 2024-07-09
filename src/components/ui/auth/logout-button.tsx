@@ -1,14 +1,15 @@
 "use client";
+import { useRouter } from "next/navigation";
 
-import { signOut } from "../../../../auth";
-
-interface LogoutButtonProps {
-  children?: React.ReactNode;
+interface LogOutProps {
+  children: React.ReactNode;
+  asChild?: boolean;
 }
 
-export const LogoutButton = ({ children }: LogoutButtonProps) => {
-  const onClick = async () => {
-    await signOut();
+export const LogOutButton = ({ children, asChild }: LogOutProps) => {
+  const router = useRouter();
+  const onClick = () => {
+    router.push("/auth/login");
   };
 
   return (
