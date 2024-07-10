@@ -1,18 +1,139 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { signOut } from "next-auth/react";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { useState, useTransition } from "react";
+import { settings } from "../../../../actions/settings";
+import { useSession } from "next-auth/react";
+import { settingSchma } from "../../../../schemas";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormDescription,
+  FormMessage,
+  FormField,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { useCurrentUser } from "../../../../hoooks/use-current-user";
+import { FormSuccess } from "@/components/form-success";
+import { FormError } from "@/components/form-error";
+
 export default function Page() {
   const user = useCurrentUser();
-  console.log("USer=", user);
-  const onClick = () => {
-    signOut();
+  const [error, setError] = useState<string | undefined>();
+  const [success, setSuccess] = useState<string | undefined>();
+  const [isPending, startTransition] = useTransition();
+  const { update } = useSession();
+
+  const form = useForm<z.infer<typeof settingSchma>>({
+    resolver: zodResolver(settingSchma),
+    defaultValues: {
+      name: user?.name || undefined,
+      email: user?.email || undefined,
+      password: undefined,
+      newPassword: undefined,
+    },
+  });
+  const onSubmit = (values: z.infer<typeof settingSchma>) => {
+    startTransition(() => {
+      settings(values)
+        .then((data) => {
+          if (data.error) {
+            setError(data.error);
+          }
+          if (data.success) {
+            update();
+            setSuccess(data.success);
+          }
+        })
+        .catch((err) => console.log("Something went wrong"));
+    });
   };
   return (
-    <div>
-      <form>
-        <Button onClick={onClick}>Sign Out</Button>
-      </form>
-    </div>
+    <Card className="w-[600px]">
+      <CardHeader>
+        <p>Settings</p>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="space-y-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder="John Doe"
+                        disabled={isPending}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder="johndoe@gmail.com"
+                        type="email"
+                        disabled={isPending}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                placeholder="********"
+                                disabled={isPending}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="newPassword"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>New Password</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                placeholder="********"
+                                disabled={isPending}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormSuccess message={success} />
+            <FormError message={error} />
+            <Button type="submit">Save</Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }
