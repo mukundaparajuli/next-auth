@@ -8,6 +8,7 @@ interface userInfoProps {
 }
 
 export const UserInfo = ({ user, label }: userInfoProps) => {
+  console.log("User Info page=", user);
   return (
     <Card className="bg-secondary px-4 rounded-xl w-[600px] shadow-sm">
       <CardHeader>

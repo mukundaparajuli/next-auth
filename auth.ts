@@ -22,7 +22,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account }) {
-      // Allow OAuth without email verification
+      console.log("Provider=", account?.provider);
       if (account?.provider !== "credentials") return true;
 
       const existingUser = await getUserById(user.id as string);
@@ -38,7 +38,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         // DELETE TWO FACTOR CONFM FOR NEXT SIGN IN
         await db.twoFactorConfirmation.delete({
-          where: { id: twoFactorConfirmation.id },
+          where: { userId: twoFactorConfirmation.id },
         });
       }
       return true;
