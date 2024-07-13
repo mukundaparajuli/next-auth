@@ -12,6 +12,7 @@ const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const { nextUrl } = req;
+  console.log("Next URL: ", nextUrl);
   const isLoggedIn = !!req.auth;
   console.log(isLoggedIn);
 

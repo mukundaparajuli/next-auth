@@ -26,6 +26,7 @@ export const settings = async (values: z.infer<typeof settingSchma>) => {
     values.email = undefined;
     values.password = undefined;
     values.newPassword = undefined;
+    values.isTwoFactorAuthenticated = true;
   }
 
   if (values.email && values.email !== user.email) {
@@ -65,6 +66,7 @@ export const settings = async (values: z.infer<typeof settingSchma>) => {
         email: values.email,
         password: values.password,
         role: values.role,
+        isTwoFactorEnabled: values.isTwoFactorAuthenticated,
       },
     });
 

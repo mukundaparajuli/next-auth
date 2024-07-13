@@ -5,11 +5,11 @@ import { auth } from "../../../../auth";
 import { UserInfo } from "@/components/user-info";
 import { useCurrentUser } from "../../../../hoooks/use-current-user";
 const ClientPage = () => {
-  const userInfo = useCurrentUser();
+  const userInformation = useCurrentUser();
 
   return (
     <div>
-      <UserInfo label="Client Component 📱" user={userInfo} />
+      <UserInfo label="Client Component 📱" user={userInformation} />
     </div>
   );
 };

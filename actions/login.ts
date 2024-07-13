@@ -15,7 +15,10 @@ import { getTwoFactorTokenByEmail } from "../data/two-factor-token";
 import { db } from "@/lib/db";
 import { twoFactorConfirmationByUserId } from "../data/two-factor-confirmation";
 import { TwoFactorConfirmation } from "@prisma/client";
-export const Login = async (values: z.infer<typeof loginSchema>) => {
+export const Login = async (
+  values: z.infer<typeof loginSchema>,
+  callbackUrl?: string
+) => {
   const validateFields = loginSchema.safeParse(values);
 
   if (!validateFields.success) {
@@ -79,7 +82,7 @@ export const Login = async (values: z.infer<typeof loginSchema>) => {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
 
     console.log("Redirecting to settings page");
