@@ -1,15 +1,17 @@
 "use client";
 
-import { currentUser } from "@/lib/auth";
 import { auth } from "../../../../auth";
 import { UserInfo } from "@/components/user-info";
 import { useCurrentUser } from "../../../../hoooks/use-current-user";
 const ClientPage = () => {
-  const userInformation = useCurrentUser();
+  const user = useCurrentUser();
+  {
+    console.log("Client side User: ", user);
+  }
 
   return (
     <div>
-      <UserInfo label="Client Component 📱" user={userInformation} />
+      <UserInfo label="Client Component 📱" user={user} />
     </div>
   );
 };

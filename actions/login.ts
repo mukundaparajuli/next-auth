@@ -79,6 +79,7 @@ export const Login = async (
     }
   }
   try {
+    console.log("callbackUrl=", callbackUrl);
     await signIn("credentials", {
       email,
       password,

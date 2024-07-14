@@ -46,7 +46,7 @@ export default function Page() {
       password: undefined,
       newPassword: undefined,
       role: user?.role || undefined,
-      isTwoFactorAuthenticated: user?.isTwoFactorEnabled || true,
+      isTwoFactorAuthenticated: user?.isTwoFactorEnabled || undefined,
     },
   });
   const onSubmit = (values: z.infer<typeof settingSchma>) => {

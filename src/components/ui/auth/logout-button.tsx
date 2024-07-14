@@ -1,4 +1,5 @@
 "use client";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 interface LogOutProps {
@@ -8,7 +9,8 @@ interface LogOutProps {
 
 export const LogOutButton = ({ children, asChild }: LogOutProps) => {
   const router = useRouter();
-  const onClick = () => {
+  const onClick = async () => {
+    await signOut();
     router.push("/auth/login");
   };
 
